@@ -96,8 +96,6 @@ function Index() {
         <ContactSection />
       </main>
       <SiteFooter />
-
-      </main>
     </div>
   );
 }
