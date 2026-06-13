@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Sun } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
 import { ServicesSection } from "@/components/services-section";
+import { ContactSection } from "@/components/contact-section";
+import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/cebu-hero.jpg";
 
@@ -91,6 +93,9 @@ function Index() {
         </section>
 
         <ServicesSection />
+        <ContactSection />
+      </main>
+      <SiteFooter />
 
       </main>
     </div>
