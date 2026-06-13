@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Sun } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
+import { ServicesSection } from "@/components/services-section";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/cebu-hero.jpg";
 
@@ -89,11 +90,8 @@ function Index() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 py-24">
-          <p className="text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            More sections coming next — residential, commercial, ROI, estimate form.
-          </p>
-        </section>
+        <ServicesSection />
+
       </main>
     </div>
   );
