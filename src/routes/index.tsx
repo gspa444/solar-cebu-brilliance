@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Sun } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
 import { ServicesSection } from "@/components/services-section";
+import { SavingsCalculator } from "@/components/savings-calculator";
 import { ContactSection } from "@/components/contact-section";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
@@ -93,6 +94,7 @@ function Index() {
         </section>
 
         <ServicesSection />
+        <SavingsCalculator />
         <ContactSection />
       </main>
       <SiteFooter />
