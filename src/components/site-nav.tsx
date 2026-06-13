@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Sun, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/gsps-logo.png";
 
 const links = [
   { label: "Residential Solutions", href: "#residential" },
@@ -16,9 +17,13 @@ export function SiteNav() {
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 h-20 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
-          <span className="relative inline-flex items-center justify-center h-10 w-10 rounded-full bg-charcoal text-gold ring-1 ring-gold/40 transition group-hover:ring-gold">
-            <Sun className="h-5 w-5" strokeWidth={2.25} />
-          </span>
+          <img
+            src={logo}
+            alt="Green Sun Power Systems"
+            width={48}
+            height={48}
+            className="h-11 w-11 object-contain drop-shadow-[0_4px_12px_rgba(193,153,68,0.35)]"
+          />
           <span className="flex flex-col leading-tight">
             <span className="font-display text-lg font-semibold text-charcoal">
               Green Sun <span className="text-[color:var(--gold)]">Power</span>
