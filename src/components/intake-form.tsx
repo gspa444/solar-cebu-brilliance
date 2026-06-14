@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { ArrowRight, ClipboardCheck, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, ClipboardCheck, ShieldCheck } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 
 const LOCATIONS = [
   "Cebu City",
@@ -28,23 +27,14 @@ const LOCATIONS = [
   "Other Visayas",
 ];
 
+const WEB3FORMS_ACCESS_KEY = "fa6aed3e-75a6-4228-bdcd-95f4ae180892";
+
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
-  email: z
-    .string()
-    .trim()
-    .email("Please enter a valid email address")
-    .max(255),
-  contact: z
-    .string()
-    .trim()
-    .min(7, "Please enter a valid contact number")
-    .max(30),
+  email: z.string().trim().email("Please enter a valid email address").max(255),
+  contact: z.string().trim().min(7, "Please enter a valid contact number").max(30),
   location: z.string().min(1, "Please select your location"),
-  bill: z
-    .string()
-    .trim()
-    .regex(/^\d{1,7}$/, "Enter a valid monthly bill amount"),
+  bill: z.string().trim().regex(/^\d{1,7}$/, "Enter a valid monthly bill amount"),
   uploadBill: z.boolean(),
 });
 
@@ -58,11 +48,12 @@ export function IntakeForm() {
     uploadBill: true,
   });
   const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const update = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
     setForm((f) => ({ ...f, [k]: v }));
 
-  const onSubmit = async (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -70,32 +61,33 @@ export function IntakeForm() {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("blueprint_requests").insert({
-      name: parsed.data.name,
-      email: parsed.data.email,
-      contact: parsed.data.contact,
-      location: parsed.data.location,
-      monthly_bill: Number(parsed.data.bill),
-      upload_bill: parsed.data.uploadBill,
-    });
-    setSubmitting(false);
-    if (error) {
-      toast.error("Could not submit", {
-        description: "Please try again in a moment.",
+    try {
+      const formData = new FormData(e.currentTarget);
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData,
       });
-      return;
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.success) {
+        throw new Error(json.message || "Submission failed");
+      }
+      setSuccess(true);
+      setForm({
+        name: "",
+        email: "",
+        contact: "",
+        location: "",
+        bill: "",
+        uploadBill: true,
+      });
+    } catch (err) {
+      toast.error("Could not submit", {
+        description: err instanceof Error ? err.message : "Please try again in a moment.",
+      });
+    } finally {
+      setSubmitting(false);
     }
-    toast.success("Blueprint request received", {
-      description: "Our engineering team will reach out within 24 hours.",
-    });
-    setForm({
-      name: "",
-      email: "",
-      contact: "",
-      location: "",
-      bill: "",
-      uploadBill: true,
-    });
   };
 
   return (
@@ -119,117 +111,152 @@ export function IntakeForm() {
           </p>
         </div>
 
-        <form
-          onSubmit={onSubmit}
-          className="mt-12 rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] backdrop-blur"
-          noValidate
-        >
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Full Name" htmlFor="name">
-              <Input
-                id="name"
-                value={form.name}
-                onChange={(e) => update("name", e.target.value)}
-                placeholder="Juan Dela Cruz"
-                maxLength={100}
-                className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
-                required
-              />
-            </Field>
-            <Field label="Email Address" htmlFor="email">
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                value={form.email}
-                onChange={(e) => update("email", e.target.value)}
-                placeholder="you@example.com"
-                maxLength={255}
-                className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
-                required
-              />
-            </Field>
-            <Field label="Contact Number / WhatsApp" htmlFor="contact">
-              <Input
-                id="contact"
-                type="tel"
-                value={form.contact}
-                onChange={(e) => update("contact", e.target.value)}
-                placeholder="+63 920 000 0000"
-                maxLength={30}
-                className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
-                required
-              />
-            </Field>
-            <Field label="Cebu Location" htmlFor="location">
-              <Select
-                value={form.location}
-                onValueChange={(v) => update("location", v)}
-              >
-                <SelectTrigger
-                  id="location"
-                  className="h-11 border-white/15 bg-white/5 text-white data-[placeholder]:text-white/40 focus:ring-[color:var(--gold)]"
-                >
-                  <SelectValue placeholder="Select your area" />
-                </SelectTrigger>
-                <SelectContent>
-                  {LOCATIONS.map((l) => (
-                    <SelectItem key={l} value={l}>
-                      {l}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
-            <Field label="Current Avg. Monthly Power Bill (₱)" htmlFor="bill">
-              <Input
-                id="bill"
-                inputMode="numeric"
-                value={form.bill}
-                onChange={(e) =>
-                  update("bill", e.target.value.replace(/[^\d]/g, "").slice(0, 7))
-                }
-                placeholder="e.g. 12000"
-                className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
-                required
-              />
-            </Field>
+        {success ? (
+          <div className="mt-12 rounded-2xl border border-[color:var(--gold)]/40 bg-white/[0.04] p-10 sm:p-14 text-center shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] backdrop-blur animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[color:var(--gold)]/15 ring-1 ring-[color:var(--gold)]/50">
+              <CheckCircle2 className="h-8 w-8 text-[color:var(--gold)]" />
+            </div>
+            <h3 className="mt-6 font-display text-2xl sm:text-3xl font-semibold text-white">
+              Thank you!
+            </h3>
+            <p className="mx-auto mt-3 max-w-md text-white/75 leading-relaxed">
+              Your request has been securely transmitted. Check your inbox for your
+              confirmation blueprint.
+            </p>
           </div>
-
-          <label className="mt-6 flex items-start gap-3 rounded-xl border border-[color:var(--gold)]/30 bg-[color:var(--gold)]/[0.06] p-4 cursor-pointer transition-colors hover:bg-[color:var(--gold)]/10">
-            <Checkbox
-              checked={form.uploadBill}
-              onCheckedChange={(v) => update("uploadBill", v === true)}
-              className="mt-0.5 border-[color:var(--gold)]/60 data-[state=checked]:bg-[color:var(--gold)] data-[state=checked]:text-charcoal data-[state=checked]:border-[color:var(--gold)]"
-            />
-            <span className="text-sm text-white/90 leading-relaxed">
-              I want to submit a photo/copy of my recent power bill for a{" "}
-              <span className="text-[color:var(--gold)] font-medium">
-                free line-by-line savings analysis
-              </span>
-              .
-            </span>
-          </label>
-
-          <Button
-            type="submit"
-            disabled={submitting}
-            className="group mt-8 h-14 w-full rounded-full bg-[color:var(--gold)] text-charcoal text-base font-semibold tracking-wide hover:bg-[color:var(--gold)]/90 hover:shadow-[0_25px_60px_-15px_rgba(193,153,68,0.7)] hover:-translate-y-0.5 transition-all duration-300"
+        ) : (
+          <form
+            onSubmit={onSubmit}
+            className="mt-12 rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-10 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] backdrop-blur"
+            noValidate
           >
-            {submitting ? "Submitting…" : "Secure My Energy Independence Blueprint"}
-            <ArrowRight className="ml-1 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-          </Button>
+            {/* Web3Forms hidden config */}
+            <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+            <input type="hidden" name="from_name" value="Green Sun Power Systems" />
+            <input
+              type="hidden"
+              name="subject"
+              value="☀️ Your Green Sun Solar Blueprint is Underway!"
+            />
+            <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} defaultChecked={false} />
 
-          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-white/50">
-            <ShieldCheck className="h-3.5 w-3.5 text-[color:var(--gold)]/70" />
-            Your information is kept strictly confidential.
-          </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Field label="Full Name" htmlFor="name">
+                <Input
+                  id="name"
+                  name="name"
+                  value={form.name}
+                  onChange={(e) => update("name", e.target.value)}
+                  placeholder="Juan Dela Cruz"
+                  maxLength={100}
+                  className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
+                  required
+                />
+              </Field>
+              <Field label="Email Address" htmlFor="email">
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(e) => update("email", e.target.value)}
+                  placeholder="you@example.com"
+                  maxLength={255}
+                  className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
+                  required
+                />
+              </Field>
+              <Field label="Contact Number / WhatsApp" htmlFor="contact">
+                <Input
+                  id="contact"
+                  name="contact"
+                  type="tel"
+                  value={form.contact}
+                  onChange={(e) => update("contact", e.target.value)}
+                  placeholder="+63 920 000 0000"
+                  maxLength={30}
+                  className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
+                  required
+                />
+              </Field>
+              <Field label="Cebu Location" htmlFor="location">
+                <Select
+                  value={form.location}
+                  onValueChange={(v) => update("location", v)}
+                >
+                  <SelectTrigger
+                    id="location"
+                    className="h-11 border-white/15 bg-white/5 text-white data-[placeholder]:text-white/40 focus:ring-[color:var(--gold)]"
+                  >
+                    <SelectValue placeholder="Select your area" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LOCATIONS.map((l) => (
+                      <SelectItem key={l} value={l}>
+                        {l}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <input type="hidden" name="location" value={form.location} />
+              </Field>
+              <Field label="Current Avg. Monthly Power Bill (₱)" htmlFor="bill">
+                <Input
+                  id="bill"
+                  name="monthly_bill"
+                  inputMode="numeric"
+                  value={form.bill}
+                  onChange={(e) =>
+                    update("bill", e.target.value.replace(/[^\d]/g, "").slice(0, 7))
+                  }
+                  placeholder="e.g. 12000"
+                  className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
+                  required
+                />
+              </Field>
+            </div>
 
-          <p className="mt-6 text-center text-xs italic text-white/55 leading-relaxed">
-            System financing options are available through partner banking institutions,
-            subject to standard credit evaluation and bank approval.
-          </p>
-        </form>
+            <label className="mt-6 flex items-start gap-3 rounded-xl border border-[color:var(--gold)]/30 bg-[color:var(--gold)]/[0.06] p-4 cursor-pointer transition-colors hover:bg-[color:var(--gold)]/10">
+              <Checkbox
+                checked={form.uploadBill}
+                onCheckedChange={(v) => update("uploadBill", v === true)}
+                className="mt-0.5 border-[color:var(--gold)]/60 data-[state=checked]:bg-[color:var(--gold)] data-[state=checked]:text-charcoal data-[state=checked]:border-[color:var(--gold)]"
+              />
+              <span className="text-sm text-white/90 leading-relaxed">
+                I want to submit a photo/copy of my recent power bill for a{" "}
+                <span className="text-[color:var(--gold)] font-medium">
+                  free line-by-line savings analysis
+                </span>
+                .
+              </span>
+            </label>
+            <input
+              type="hidden"
+              name="upload_bill"
+              value={form.uploadBill ? "Yes" : "No"}
+            />
+
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="group mt-8 h-14 w-full rounded-full bg-[color:var(--gold)] text-charcoal text-base font-semibold tracking-wide hover:bg-[color:var(--gold)]/90 hover:shadow-[0_25px_60px_-15px_rgba(193,153,68,0.7)] hover:-translate-y-0.5 transition-all duration-300"
+            >
+              {submitting ? "Submitting…" : "Secure My Energy Independence Blueprint"}
+              <ArrowRight className="ml-1 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Button>
+
+            <div className="mt-6 flex items-center justify-center gap-2 text-xs text-white/50">
+              <ShieldCheck className="h-3.5 w-3.5 text-[color:var(--gold)]/70" />
+              Your information is kept strictly confidential.
+            </div>
+
+            <p className="mt-6 text-center text-xs italic text-white/55 leading-relaxed">
+              System financing options are available through partner banking institutions,
+              subject to standard credit evaluation and bank approval.
+            </p>
+          </form>
+        )}
       </div>
     </section>
   );
