@@ -51,6 +51,7 @@ const schema = z.object({
 export function IntakeForm() {
   const [form, setForm] = useState({
     name: "",
+    email: "",
     contact: "",
     location: "",
     bill: "",
@@ -61,7 +62,7 @@ export function IntakeForm() {
   const update = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
     setForm((f) => ({ ...f, [k]: v }));
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
@@ -69,13 +70,32 @@ export function IntakeForm() {
       return;
     }
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      toast.success("Blueprint request received", {
-        description: "Our engineering team will reach out within 24 hours.",
+    const { error } = await supabase.from("blueprint_requests").insert({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      contact: parsed.data.contact,
+      location: parsed.data.location,
+      monthly_bill: Number(parsed.data.bill),
+      upload_bill: parsed.data.uploadBill,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Could not submit", {
+        description: "Please try again in a moment.",
       });
-      setForm({ name: "", contact: "", location: "", bill: "", uploadBill: true });
-    }, 700);
+      return;
+    }
+    toast.success("Blueprint request received", {
+      description: "Our engineering team will reach out within 24 hours.",
+    });
+    setForm({
+      name: "",
+      email: "",
+      contact: "",
+      location: "",
+      bill: "",
+      uploadBill: true,
+    });
   };
 
   return (
