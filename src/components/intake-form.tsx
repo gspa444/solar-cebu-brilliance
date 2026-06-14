@@ -136,6 +136,19 @@ export function IntakeForm() {
                 required
               />
             </Field>
+            <Field label="Email Address" htmlFor="email">
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
+                placeholder="you@example.com"
+                maxLength={255}
+                className="h-11 border-white/15 bg-white/5 text-white placeholder:text-white/40 focus-visible:ring-[color:var(--gold)]"
+                required
+              />
+            </Field>
             <Field label="Contact Number / WhatsApp" htmlFor="contact">
               <Input
                 id="contact"
