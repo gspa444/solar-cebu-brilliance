@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const LOCATIONS = [
   "Cebu City",
@@ -29,6 +30,11 @@ const LOCATIONS = [
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
+  email: z
+    .string()
+    .trim()
+    .email("Please enter a valid email address")
+    .max(255),
   contact: z
     .string()
     .trim()
