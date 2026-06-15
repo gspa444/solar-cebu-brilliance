@@ -138,6 +138,8 @@ export function IntakeForm() {
               name="subject"
               value="☀️ Your Green Sun Solar Blueprint is Underway!"
             />
+            {/* Map customer email as the auto-responder recipient */}
+            <input type="hidden" name="replyto" value={form.email} />
             <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} defaultChecked={false} />
 
             <div className="grid gap-5 sm:grid-cols-2">
