@@ -8,23 +8,28 @@ import { ContactSection } from "@/components/contact-section";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/cebu-hero.jpg";
+import ogLogo from "@/assets/gsps-logo.png";
+
+const SITE_TITLE = "Green Sun Power Systems | Premium Solar Energy Cebu";
+const SITE_DESCRIPTION =
+  "Engineered for the tropics. High-performance solar power systems for residential and commercial properties across Cebu. Get your free savings blueprint today.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Green Sun Power Systems — Premium Solar in Cebu" },
-      {
-        name: "description",
-        content:
-          "Premium residential and commercial solar energy systems engineered for Cebu. Lower bills, cleaner power, and a faster ROI under the tropical sun.",
-      },
-      { property: "og:title", content: "Green Sun Power Systems — Premium Solar in Cebu" },
-      {
-        property: "og:description",
-        content:
-          "Premium residential and commercial solar energy systems engineered for Cebu.",
-      },
+      { title: SITE_TITLE },
+      { name: "description", content: SITE_DESCRIPTION },
+      { property: "og:title", content: SITE_TITLE },
+      { property: "og:description", content: SITE_DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: ogLogo },
+      { property: "og:image:alt", content: "Green Sun Power Systems logo" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: SITE_TITLE },
+      { name: "twitter:description", content: SITE_DESCRIPTION },
+      { name: "twitter:image", content: ogLogo },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });

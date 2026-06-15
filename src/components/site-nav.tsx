@@ -7,7 +7,8 @@ import logo from "@/assets/gsps-logo.png";
 const links = [
   { label: "Residential Solutions", href: "#residential" },
   { label: "Commercial Systems", href: "#commercial" },
-  { label: "ROI Breakdown", href: "#roi" },
+  { label: "ROI Calculator", href: "#roi" },
+  { label: "Get Estimate", href: "#estimate" },
 ];
 
 export function SiteNav() {

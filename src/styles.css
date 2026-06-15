@@ -108,3 +108,6 @@
     letter-spacing: -0.02em;
   }
 }
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+

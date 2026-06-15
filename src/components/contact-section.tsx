@@ -24,7 +24,7 @@ const items = [
 
 export function ContactSection() {
   return (
-    <section id="estimate" className="relative py-24 lg:py-32 bg-secondary/40 border-y border-border">
+    <section id="contact" className="relative py-24 lg:py-32 bg-secondary/40 border-y border-border">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         <div className="lg:col-span-5">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
