@@ -14,7 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      blueprint_requests: {
+        Row: {
+          contact: string
+          created_at: string
+          email: string
+          id: string
+          location: string
+          monthly_bill: number
+          name: string
+          upload_bill: boolean
+        }
+        Insert: {
+          contact: string
+          created_at?: string
+          email: string
+          id?: string
+          location: string
+          monthly_bill: number
+          name: string
+          upload_bill?: boolean
+        }
+        Update: {
+          contact?: string
+          created_at?: string
+          email?: string
+          id?: string
+          location?: string
+          monthly_bill?: number
+          name?: string
+          upload_bill?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
