@@ -1,9 +1,8 @@
 [build]
-  base = ""
-  command = "vite build"
-  publish = "dist/client"
+     command = "cd client && bun run build"
+     publish = "client/dist"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+   [[redirects]]
+     from = "/*"
+     to = "/index.html"
+     status = 200
