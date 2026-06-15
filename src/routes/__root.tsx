@@ -88,8 +88,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Green Sun" },
       { name: "twitter:description", content: "A premium landing page for Green Sun Power Systems, offering solar solutions for Cebu residents and businesses." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5c32cc62-cedb-4d73-965e-32062b09e6e4/id-preview-9073b8b3--148dd0a4-6a11-4517-b849-0237d1eb9b34.lovable.app-1781517566843.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5c32cc62-cedb-4d73-965e-32062b09e6e4/id-preview-9073b8b3--148dd0a4-6a11-4517-b849-0237d1eb9b34.lovable.app-1781517566843.png" },
+      { property: "og:image", content: "https://greensunsolarpower.com/green-sun-banner.png" },
+      { name: "twitter:image", content: "https://greensunsolarpower.com/green-sun-banner.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
