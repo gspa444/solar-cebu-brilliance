@@ -1,5 +1,0 @@
-```toml
-   [build]
-     base = "client"
-     command = "bun run build"
-     publish = "dist"
