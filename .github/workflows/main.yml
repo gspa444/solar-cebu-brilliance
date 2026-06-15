@@ -1,0 +1,23 @@
+name: Build cPanel Site
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      
+      - name: Install and Build
+        run: |
+          bun install
+          bun run build
+          
+      - name: Upload Production Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpanel-dist
+          path: dist/
