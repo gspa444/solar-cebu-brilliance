@@ -1,5 +1,6 @@
 import { Home, Building2, BatteryCharging, ShieldCheck, Zap, Activity, ArrowRight, Landmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import solarResidence from "@/assets/philippine-solar-residence.jpg";
 
 type Feature = { icon: React.ElementType; text: string };
 
@@ -155,6 +156,15 @@ export function ServicesSection() {
             same Cebu-based team.
           </p>
         </div>
+
+        <img
+          src={solarResidence}
+          alt="Illustrative luxury Philippine coastal home with rooftop solar panels reflecting the afternoon sun"
+          width={1536}
+          height={1024}
+          loading="lazy"
+          className="mt-12 h-auto w-full"
+        />
 
         <div className="mt-14 grid gap-6 lg:gap-8 lg:grid-cols-2">
           <ServiceCard

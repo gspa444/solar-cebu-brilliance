@@ -9,7 +9,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/cebu-hero.jpg";
 
-const SITE_TITLE = "Green Sun Power Systems | Premium Solar Energy Cebu";
+const SITE_TITLE = "Green Sun Solar Power Systems | Premium Solar Energy Cebu";
 const SITE_DESCRIPTION =
   "Engineered for the tropics. High-performance solar power systems for residential and commercial properties across Cebu. Get your free savings blueprint today.";
 
@@ -58,7 +58,7 @@ function Index() {
                 Premium solar power, <span className="text-[color:var(--gold)]">engineered</span> for the tropics.
               </h1>
               <p className="mt-6 max-w-xl text-lg text-white/80">
-                Green Sun Power Systems designs and installs high-performance solar
+                Green Sun Solar Power Systems designs and installs high-performance solar
                 for homes and businesses across Cebu — built to last, sized to your
                 load, and priced to pay itself back.
               </p>

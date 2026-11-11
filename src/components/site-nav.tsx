@@ -16,21 +16,21 @@ export function SiteNav() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border/60">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 h-20 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between gap-2">
+        <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3 group">
           <img
             src={logo}
-            alt="Green Sun Power Systems"
+            alt="Green Sun Solar Power"
             width={48}
             height={48}
-            className="h-11 w-11 object-contain drop-shadow-[0_4px_12px_rgba(193,153,68,0.35)]"
+            className="h-9 w-9 sm:h-11 sm:w-11 shrink-0 object-contain"
           />
           <span className="flex flex-col leading-tight">
-            <span className="font-display text-lg font-semibold text-charcoal">
-              Green Sun <span className="text-[color:var(--gold)]">Power</span>
+            <span className="font-display text-base sm:text-lg font-semibold text-charcoal whitespace-nowrap">
+              Green Sun <span className="text-gold">Solar Power</span>
             </span>
             <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Systems · Cebu
+              Cebu
             </span>
           </span>
         </Link>
