@@ -8,7 +8,6 @@ import { ContactSection } from "@/components/contact-section";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/cebu-hero.jpg";
-import ogLogo from "@/assets/gsps-logo.png";
 
 const SITE_TITLE = "Green Sun Power Systems | Premium Solar Energy Cebu";
 const SITE_DESCRIPTION =
@@ -22,12 +21,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: ogLogo },
-      { property: "og:image:alt", content: "Green Sun Power Systems logo" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: SITE_TITLE },
       { name: "twitter:description", content: SITE_DESCRIPTION },
-      { name: "twitter:image", content: ogLogo },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),

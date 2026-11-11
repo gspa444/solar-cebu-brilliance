@@ -27,7 +27,7 @@ const LOCATIONS = [
   "Other Visayas",
 ];
 
-const WEB3FORMS_ACCESS_KEY = "fa6aed3e-75a6-4228-bdcd-95f4ae180892";
+const WEB3FORMS_ACCESS_KEY = "55945188-3e55-4fc2-8266-05b64c33418a";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Please enter your full name").max(100),
@@ -120,8 +120,7 @@ export function IntakeForm() {
               Thank you!
             </h3>
             <p className="mx-auto mt-3 max-w-md text-white/75 leading-relaxed">
-              Your request has been securely transmitted. Check your inbox for your
-              confirmation blueprint.
+              Your request has been submitted to Green Sun Power Systems.
             </p>
           </div>
         ) : (
@@ -138,7 +137,7 @@ export function IntakeForm() {
               name="subject"
               value="☀️ Your Green Sun Solar Blueprint is Underway!"
             />
-            {/* Map customer email as the auto-responder recipient */}
+            {/* Set the customer's address for replies to the enquiry notification. */}
             <input type="hidden" name="replyto" value={form.email} />
             <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} defaultChecked={false} />
 
