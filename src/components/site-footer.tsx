@@ -10,7 +10,7 @@ const nav = [
 
 const contact = [
   { icon: Phone, value: "+63 920 255 4453", href: "tel:+639202554453" },
-  { icon: Mail, value: "sales@greensunsolarpower.com", href: "mailto:sales@greensunsolarpower.com" },
+  { icon: Mail, value: "salesdepartment@greensunsolarpower.com", href: "mailto:salesdepartment@greensunsolarpower.com" },
   { icon: MapPin, value: "Cebu City, Philippines" },
 ];
 

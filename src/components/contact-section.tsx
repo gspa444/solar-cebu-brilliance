@@ -11,8 +11,8 @@ const items = [
   {
     icon: Mail,
     label: "Email",
-    value: "sales@greensunsolarpower.com",
-    href: "mailto:sales@greensunsolarpower.com",
+    value: "salesdepartment@greensunsolarpower.com",
+    href: "mailto:salesdepartment@greensunsolarpower.com",
   },
   {
     icon: MapPin,
@@ -41,7 +41,7 @@ export function ContactSection() {
             asChild
             className="mt-8 h-12 px-7 rounded-full bg-charcoal text-[color:var(--gold)] hover:bg-charcoal/90 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.6)]"
           >
-            <a href="mailto:sales@greensunsolarpower.com" className="inline-flex items-center gap-2">
+            <a href="mailto:salesdepartment@greensunsolarpower.com" className="inline-flex items-center gap-2">
               Request an Estimate <ArrowRight className="h-4 w-4" />
             </a>
           </Button>

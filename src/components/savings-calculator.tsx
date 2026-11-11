@@ -238,7 +238,7 @@ export function SavingsCalculator() {
               className="h-12 px-6 rounded-full bg-charcoal text-[color:var(--gold)] hover:bg-charcoal/90 shrink-0"
             >
               <a
-                href="mailto:sales@greensunsolarpower.com?subject=Power%20Bill%20Analysis%20Request"
+                href="mailto:salesdepartment@greensunsolarpower.com?subject=Power%20Bill%20Analysis%20Request"
                 className="inline-flex items-center gap-2"
               >
                 <Upload className="h-4 w-4" /> Send My Bill
