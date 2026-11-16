@@ -9,3 +9,4 @@
 - [x] Customer confirmations omitted as requested; no Web3Forms Pro upgrade needed
 - [x] Update homepage top-bar name and introduction as requested
 - [x] Add a generated Philippine luxury solar home beneath the coastal first section; name and image verified on desktop/mobile
+- [x] Hide the "Edit with Lovable" badge on the published site
